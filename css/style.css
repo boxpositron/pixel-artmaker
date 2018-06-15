@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css?family=Dosis');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700');
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: #212121;
+    font-size: 1rem;
+    font-family: 'Dosis', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+ul.pallette-box {
+    display: grid;
+    grid-template-columns: 20px 20px 20px 20px;
+    grid-row-gap: 0px;
+}
+
+ul.pallette-box {
+    padding: 0;
+    -webkit-padding-start: 0;
+    list-style-type: none;
+}
+
+ul.pallette-box li {
+    height: 20px;
+    border-radius: 2px;
+    list-style-position: outside;
+    border: .5px solid;
+    border-color: rgba(255, 255, 255, .4);
+    transition: border-color .3s;
+}
+
+ul.pallette-box li:hover {
+    border-color: rgba(255, 255, 255, .9);
+    transition: border-color .3s;
+    cursor: pointer;
+}
+
+li.pallette-color {
+    grid-column: 1 1;
+    background: #212121;
+}
+
+span.pallette-color-name {
+    padding: 0 5px;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    font-size: .85em;
+}
+
+@media only screen and (max-width: 500px) {
+    ul.pallette-box {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    ul.pallette-box li {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        border-radius: 2px;
+        list-style-position: outside;
+        border: .5px solid;
+        border-color: rgba(255, 255, 255, .4);
+        transition: border-color .3s;
+    }
+}
+
+div.pixel-area {}
+
+div.pixel {}
+
+div.settings-form {
+    display: inline;
+}
+
+div.settings-form>* {
+    font-family: 'Source Code Pro', monospace;
+    font-size: .8em;
+    padding: 0 10px;
+}
+
+div.settings-form>label {
+    font-weight: 700;
+    display: inline-block;
+    max-width: 200px;
+    min-width: 100px;
+}
+
+div.settings-form>input {
+    margin: 10px 0;
+    height: 22px;
+    max-width: 200px;
+    padding: 5px 5px;
+    text-align: center;
+}
+
+div.settings-form>button {
+    display: inline-block;
+    background-color: #757575;
+    color: #fafafa;
+    padding: 10px 30px;
+    border: none;
+}
+
+@media only screen and (max-width: 1464px) {
+    div.settings-form {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    div.settings-form {
+        margin: 10px 0;
+
+    }
+    div.settings-form>input {
+        display: block;
+        width: 200px;
+
+    }
+
+    div.settings-form>button{
+        width: 200px;
+    }
+}
+
+div.header {
+    color: #fafafa;
+    background: #2196F3;
+}
+
+div.footer {
+    color: #fafafa;
+    text-align: center;
+}
+
+div.container {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 12fr;
+    grid-template-rows: 1fr 12fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+div.grid {
+    padding: 0 10px;
+}
+
+div.header {
+    grid-column-start: 1;
+    grid-column-end: 12;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+div.sidebar {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 10;
+    color: #fafafa;
+    background: #607D8B;
+}
+
+div.content {
+    grid-column-start: 2;
+    grid-column-end: 12;
+    grid-row-start: 2;
+    grid-row-end: 8;
+    background-color: #BBDEFB;
+}
+
+div.extra {
+    grid-column-start: 2;
+    grid-column-end: 12;
+    grid-row-start: 8;
+    grid-row-end: 10;
+    background-color: #BBDEFB;
+}
+
+div.footer {
+    grid-column-start: 1;
+    grid-column-end: 12;
+    grid-row-start: 10;
+    grid-row-end: 12;
+    background-color: #1976D2;
+}
+
+@media only screen and (max-width: 500px) {
+    div.container {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 12fr;
+        grid-template-rows: 50px 1fr 1fr 1fr 1fr;
+    }
+    div.header {
+        grid-column-start: 1;
+        grid-column-end: 12;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    div.sidebar {
+        grid-column-start: 1;
+        grid-column-end: 12;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        color: #fafafa;
+        background: #607D8B;
+    }
+    div.content {
+        grid-column-start: 1;
+        grid-column-end: 12;
+        grid-row-start: 3;
+        grid-row-end: 8;
+    }
+    div.extra {
+        grid-column-start: 1;
+        grid-column-end: 12;
+        grid-row-start: 8;
+        grid-row-end: 10;
+    }
+}
