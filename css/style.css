@@ -15,18 +15,22 @@ body {
 
 ul.pallette-box {
     display: grid;
-    grid-template-columns: 20px 20px 20px 20px;
-    grid-row-gap: 0px;
+    grid-template-columns: 30px 30px 30px 30px;
+    grid-row-gap: 12px;
 }
 
 ul.pallette-box {
     padding: 0;
     -webkit-padding-start: 0;
     list-style-type: none;
+    overflow-y: scroll;
+    white-space: nowrap;
+    height: 500px;
 }
 
 ul.pallette-box li {
     height: 20px;
+    margin: 0 4px;
     border-radius: 2px;
     list-style-position: outside;
     border: .5px solid;
@@ -35,9 +39,15 @@ ul.pallette-box li {
 }
 
 ul.pallette-box li:hover {
-    border-color: rgba(255, 255, 255, .9);
+    border-color: rgba(255, 255, 255, .8);
     transition: border-color .3s;
     cursor: pointer;
+}
+
+ul.pallette-box li:active {
+    border-color: rgba(255, 255, 255, 1);
+    transition: border-color .3s;
+    cursor: none;
 }
 
 li.pallette-color {
@@ -57,6 +67,7 @@ span.pallette-color-name {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+        height: 80px;
     }
     ul.pallette-box li {
         display: inline-block;
@@ -70,9 +81,29 @@ span.pallette-color-name {
     }
 }
 
-div.pixel-area {}
+div.pixel-area {
+    display: inline-block;
+    background: rgba(0,0,0,.7);
+    overflow-y: scroll;
+    height: 100%;
+    text-align: center;
+}
 
-div.pixel {}
+div.pixel {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin: 1px 2px;
+    background-color: #fafafa;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 500px) {
+    div.pixel {
+        width: 50px;
+        height: 50px;
+    }
+}
 
 div.settings-form {
     display: inline;
@@ -104,6 +135,7 @@ div.settings-form>button {
     background-color: #757575;
     color: #fafafa;
     padding: 10px 30px;
+    min-width: 110px;
     border: none;
 }
 
@@ -111,21 +143,20 @@ div.settings-form>button {
     div.settings-form {
         display: block;
     }
+    div.settings-form>label {
+        min-width: 150px;
+    }
 }
 
 @media only screen and (max-width: 500px) {
     div.settings-form {
         margin: 10px 0;
-
     }
     div.settings-form>input {
-        display: block;
-        width: 200px;
-
+        display: inline;
     }
-
-    div.settings-form>button{
-        width: 200px;
+    div.settings-form>button {
+        display: inline;
     }
 }
 
@@ -172,14 +203,14 @@ div.content {
     grid-column-start: 2;
     grid-column-end: 12;
     grid-row-start: 2;
-    grid-row-end: 8;
+    grid-row-end: 9;
     background-color: #BBDEFB;
 }
 
 div.extra {
     grid-column-start: 2;
     grid-column-end: 12;
-    grid-row-start: 8;
+    grid-row-start: 9;
     grid-row-end: 10;
     background-color: #BBDEFB;
 }
@@ -212,12 +243,14 @@ div.footer {
         grid-row-end: 3;
         color: #fafafa;
         background: #607D8B;
+        height: 150px;
     }
     div.content {
         grid-column-start: 1;
         grid-column-end: 12;
         grid-row-start: 3;
         grid-row-end: 8;
+        height: 500px;
     }
     div.extra {
         grid-column-start: 1;
