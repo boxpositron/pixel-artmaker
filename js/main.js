@@ -303,19 +303,18 @@ const updateZoom = () => {
 
 }
 
-const zoomIn = () => {
-    if (config.zoom.current > config.zoom.min) {
-        config.zoom.current += 10
-        updateZoom()
-    }
-}
-
 const zoomOut = () => {
-    if (config.zoom.current < config.zoom.max) {
+    if (config.zoom.current > config.zoom.min) {
         config.zoom.current -= 10
         return updateZoom()
     }
-    alert('Max Zoom Level')
+}
+
+const zoomIn = () => {
+    if (config.zoom.current < config.zoom.max) {
+        config.zoom.current += 10
+        return updateZoom()
+    }
 }
 
 const generateGrid = () => {
