@@ -258,17 +258,119 @@ const colors = [
 
 ]
 
+const state = {
+    loaded: false
+}
 let tempColor = colors[colors.length - 1]
-const config = {
+let config = {
     grid: 100,
     height: 100,
     width: 100,
+    favorite:{
+        colors: [],
+        max: 4
+    },
     zoom: {
         min: 50,
         max: 150,
         current: 100
     }
 }
+
+
+function throttle(callback, wait, context = this) {
+    let timeout = null
+    let callbackArgs = null
+
+    const later = () => {
+        callback.apply(context, callbackArgs)
+        timeout = null
+    }
+
+    return function () {
+        if (!timeout) {
+            callbackArgs = arguments
+            timeout = setTimeout(later, wait)
+        }
+    }
+}
+
+const loadState = () => {
+    try {
+        const pixelCache = JSON.parse(localStorage.getItem('pixelCache'))
+        const pixelArea = document.getElementById('canvas')
+        config = pixelCache.config
+
+        for (let count = 0; count < config.grid; count++) {
+            const pixel = document.createElement('div')
+            pixel.classList.add('pixel')
+            pixel.style.backgroundColor = pixelCache.colorState[count]
+            pixel.style.height = `${config.height}px`
+            pixel.style.width = `${config.width}px`
+
+            pixel.addEventListener('click', paintPixel)
+
+            pixelArea.appendChild(pixel)
+        }
+
+        state.loaded = true
+    } catch (e) {
+        state.loaded = false
+        throw new Error(`Unable to load from cache :: ${e}`)
+
+    }
+}
+
+const saveState = () => {
+    const colorState = []
+    const pixelArea = document.getElementById('canvas')
+    const children = [...pixelArea.children]
+    children.forEach(pixel => {
+        colorState.push(pixel.style.backgroundColor)
+    })
+    localStorage.setItem('pixelCache', JSON.stringify({
+        config,
+        colorState
+    }))
+}
+
+const refreshFavorite = () => {
+    const diff = config.favorite.max - config.favorite.colors.length
+    
+    for (let idx = 0; idx < diff; idx++) {
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        config.favorite.colors.push(color)
+    }
+
+    const favoriteArea = document.getElementById('favorite')
+    while (favoriteArea.firstChild) {
+        favoriteArea.firstChild.remove()
+    }
+
+    config.favorite.colors.forEach(color => {
+
+        const colorBox = document.createElement('li')
+        colorBox.classList.add('pallette-color')
+        colorBox.style.backgroundColor = color
+        colorBox.addEventListener('click', copyColor)
+        favoriteArea.appendChild(colorBox)
+    })
+}
+
+const setFavorite = ()=>{
+    if (config.favorite.colors.includes(tempColor)){
+        return
+    }
+
+    if (config.favorite.colors.length >= config.favorite.max){
+        config.favorite.colors.shift()
+    }
+
+    config.favorite.colors.push(tempColor)
+    refreshFavorite()
+}
+
+
 
 const copyColor = e => {
     const color = e.target.style.backgroundColor
@@ -295,31 +397,32 @@ const generatePallette = colors => {
 
 const paintPixel = e => {
     e.target.style.backgroundColor = tempColor
+    setFavorite()
+    throttle(() => {
+        saveState()
+    }, 5000)()
 }
 
 const updateZoom = () => {
     const pixelArea = document.getElementById('canvas')
+    const zoomText = document.getElementById('zoomLevel')
     pixelArea.style.zoom = `${config.zoom.current}%`
+    zoomText.innerText = pixelArea.style.zoom
 
 }
 
-const zoomOut = () => {
-    if (config.zoom.current > config.zoom.min) {
-        config.zoom.current -= 10
-        return updateZoom()
-    }
-}
+const zoom = e => {
 
-const zoomIn = () => {
-    if (config.zoom.current < config.zoom.max) {
-        config.zoom.current += 10
-        return updateZoom()
-    }
+    config.zoom.current = e.target.value
+    return updateZoom()
 }
 
 const generateGrid = () => {
 
     const pixelArea = document.getElementById('canvas')
+    const gridButton = document.getElementById('gridUpdate')
+    gridButton.disabled = true
+    gridButton.style.cursor = 'wait'
 
     while (pixelArea.firstChild) {
         pixelArea.firstChild.remove()
@@ -338,11 +441,15 @@ const generateGrid = () => {
     }
 
     updateZoom()
+    gridButton.disabled = false
+    gridButton.style.cursor = 'pointer'
+
 }
 
 const updateGrid = () => {
     config.grid = document.getElementById('grid-size').value
     generateGrid()
+
 }
 
 const updateHeight = () => {
@@ -352,28 +459,34 @@ const updateHeight = () => {
     children.forEach(pixel => {
         pixel.style.height = `${config.height}px`
     })
-
 }
 
 const updateWidth = () => {
     config.width = document.getElementById('cell-width').value
     const pixelArea = document.getElementById('canvas')
-    const children = [...pixelArea.children]    
+    const children = [...pixelArea.children]
     children.forEach(pixel => {
         pixel.style.width = `${config.width}px`
-
     })
 
 }
 
-const randomize = () =>{
+const randomize = () => {
     const pixelArea = document.getElementById('canvas')
+    const randomizeButton = document.getElementById('randomize')
+    randomizeButton.disabled = true
+    randomizeButton.style.cursor = 'wait'
     const children = [...pixelArea.children]
     children.forEach(pixel => {
         const color = colors[Math.floor(Math.random() * colors.length)]
         pixel.style.backgroundColor = color
 
     })
+
+    randomizeButton.disabled = false
+    randomizeButton.style.cursor = 'pointer'
+
+
 }
 
 const initButtons = () => {
@@ -381,9 +494,10 @@ const initButtons = () => {
         document.getElementById('gridUpdate').addEventListener('click', updateGrid)
         document.getElementById('heightUpdate').addEventListener('click', updateHeight)
         document.getElementById('widthUpdate').addEventListener('click', updateWidth)
-        document.getElementById('zoomIn').addEventListener('click', zoomIn)
-        document.getElementById('zoomOut').addEventListener('click', zoomOut)
+        document.getElementById('zoom').addEventListener('input', zoom)
         document.getElementById('randomize').addEventListener('click', randomize)
+        document.getElementById('save').addEventListener('click', saveState)
+
 
 
     } catch (error) {
@@ -395,13 +509,27 @@ const loadDefaults = () => {
     document.getElementById('grid-size').value = config.grid
     document.getElementById('cell-height').value = config.height
     document.getElementById('cell-width').value = config.width
+    document.getElementById('zoom').value = config.zoom.current
+    document.getElementById('zoom').min = config.zoom.min
+    document.getElementById('zoom').max = config.zoom.max
+
+
 }
 
 const init = () => {
-    loadDefaults()
     initButtons()
+    try {
+        loadState()        
+    } catch (error) {
+        generateGrid()
+    }
+    loadDefaults()
     generatePallette(colors)
-    generateGrid()
+    refreshFavorite()
 }
 
-init()
+try {
+    init()
+} catch (error) {
+    // pass
+}
