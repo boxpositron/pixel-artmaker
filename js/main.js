@@ -348,13 +348,24 @@ const updateGrid = () => {
 
 const updateHeight = () => {
     config.height = document.getElementById('cell-height').value
-    generateGrid()
+    const pixelArea = document.getElementById('canvas')
+    const children = [...pixelArea.children]
+    children.forEach(pixel => {
+        pixel.style.height = `${config.height}px`
+    })
 
 }
 
 const updateWidth = () => {
     config.width = document.getElementById('cell-width').value
-    generateGrid()
+    const pixelArea = document.getElementById('canvas')
+    alert(pixelArea)
+    const children = [...pixelArea.children]    
+    children.forEach(pixel => {
+        pixel.style.width = `${config.width}px`
+
+    })
+
 }
 
 const initButtons = () => {
