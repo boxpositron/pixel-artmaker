@@ -358,13 +358,22 @@ const updateHeight = () => {
 const updateWidth = () => {
     config.width = document.getElementById('cell-width').value
     const pixelArea = document.getElementById('canvas')
-    alert(pixelArea)
     const children = [...pixelArea.children]    
     children.forEach(pixel => {
         pixel.style.width = `${config.width}px`
 
     })
 
+}
+
+const randomize = () =>{
+    const pixelArea = document.getElementById('canvas')
+    const children = [...pixelArea.children]
+    children.forEach(pixel => {
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        pixel.style.backgroundColor = color
+
+    })
 }
 
 const initButtons = () => {
@@ -374,6 +383,8 @@ const initButtons = () => {
         document.getElementById('widthUpdate').addEventListener('click', updateWidth)
         document.getElementById('zoomIn').addEventListener('click', zoomIn)
         document.getElementById('zoomOut').addEventListener('click', zoomOut)
+        document.getElementById('randomize').addEventListener('click', randomize)
+
 
     } catch (error) {
         throw new Error('Unable to initialize application ::  Button Error')
