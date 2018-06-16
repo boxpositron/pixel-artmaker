@@ -303,19 +303,18 @@ const updateZoom = () => {
 
 }
 
-const zoomIn = () => {
-    if (config.zoom.current > config.zoom.min) {
-        config.zoom.current += 10
-        updateZoom()
-    }
-}
-
 const zoomOut = () => {
-    if (config.zoom.current < config.zoom.max) {
+    if (config.zoom.current > config.zoom.min) {
         config.zoom.current -= 10
         return updateZoom()
     }
-    alert('Max Zoom Level')
+}
+
+const zoomIn = () => {
+    if (config.zoom.current < config.zoom.max) {
+        config.zoom.current += 10
+        return updateZoom()
+    }
 }
 
 const generateGrid = () => {
@@ -348,13 +347,24 @@ const updateGrid = () => {
 
 const updateHeight = () => {
     config.height = document.getElementById('cell-height').value
-    generateGrid()
+    const pixelArea = document.getElementById('canvas')
+    const children = [...pixelArea.children]
+    children.forEach(pixel => {
+        pixel.style.height = `${config.height}px`
+    })
 
 }
 
 const updateWidth = () => {
     config.width = document.getElementById('cell-width').value
-    generateGrid()
+    const pixelArea = document.getElementById('canvas')
+    alert(pixelArea)
+    const children = [...pixelArea.children]    
+    children.forEach(pixel => {
+        pixel.style.width = `${config.width}px`
+
+    })
+
 }
 
 const initButtons = () => {
