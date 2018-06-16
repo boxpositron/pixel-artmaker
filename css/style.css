@@ -13,10 +13,20 @@ body {
     padding: 0;
 }
 
+ul.favorite-box,
 ul.pallette-box {
     display: grid;
     grid-template-columns: 30px 30px 30px 30px;
     grid-row-gap: 12px;
+}
+
+ul.favorite-box {
+    padding: 0;
+    -webkit-padding-start: 0;
+    list-style-type: none;
+    overflow-y: scroll;
+    white-space: nowrap;
+    height: 20px;
 }
 
 ul.pallette-box {
@@ -25,9 +35,10 @@ ul.pallette-box {
     list-style-type: none;
     overflow-y: scroll;
     white-space: nowrap;
-    height: 500px;
+    max-height: 450px;
 }
 
+ul.favorite-box li,
 ul.pallette-box li {
     height: 20px;
     margin: 0 4px;
@@ -37,13 +48,14 @@ ul.pallette-box li {
     border-color: rgba(255, 255, 255, .4);
     transition: border-color .3s;
 }
-
+ul.favorite-box li:hover,
 ul.pallette-box li:hover {
     border-color: rgba(255, 255, 255, .8);
     transition: border-color .3s;
     cursor: pointer;
 }
 
+ul.favorite-box li:active,
 ul.pallette-box li:active {
     border-color: rgba(255, 255, 255, 1);
     transition: border-color .3s;
@@ -63,12 +75,14 @@ span.pallette-color-name {
 }
 
 @media only screen and (max-width: 500px) {
+    ul.favorite-box,
     ul.pallette-box {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
         height: 80px;
     }
+    ul.favorite-box li,
     ul.pallette-box li {
         display: inline-block;
         height: 40px;
@@ -83,14 +97,15 @@ span.pallette-color-name {
 
 div.pixel-area {
     display: inline-block;
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, .7);
     overflow-y: scroll;
     height: 100%;
-    text-align: center;
 }
 
 div.pixel {
     display: inline-block;
+    opacity: .9;
+    transition: opacity .2s;
     width: 100px;
     height: 100px;
     margin: 1px 2px;
@@ -98,10 +113,15 @@ div.pixel {
     cursor: pointer;
 }
 
+div.pixel:hover{
+    opacity: 1;
+    transition: opacity .2s;
+}
 @media only screen and (max-width: 500px) {
     div.pixel {
         width: 50px;
         height: 50px;
+        opacity: 1;
     }
 }
 
@@ -122,7 +142,7 @@ div.settings-form>label {
     min-width: 100px;
 }
 
-div.settings-form>input {
+div.settings-form>input[type=number] {
     margin: 10px 0;
     height: 22px;
     max-width: 200px;
@@ -130,13 +150,70 @@ div.settings-form>input {
     text-align: center;
 }
 
+
+div.settings-form>input[type=range] {
+    margin: 15px 0;
+    -webkit-appearance: none;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+div.settings-form>input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #212121;
+    transition: background-color .1s;
+    
+    cursor: pointer;
+}
+
+div.settings-form>input[type=range]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #212121;
+    transition: background-color .1s;
+
+    cursor: pointer;
+}
+
+div.settings-form>input[type=range]::-webkit-slider-thumb:hover{
+    background-color: #4CAF50;
+    transition: background-color .1s;
+
+}
+
+div.settings-form>input[type=range]::-moz-range-thumb:hover {
+    background-color: #4CAF50;
+    transition: background-color .1s;
+
+}
+
+
+
+
 div.settings-form>button {
     display: inline-block;
     background-color: #757575;
+    transition: background-color .1s;
     color: #fafafa;
     padding: 10px 30px;
-    min-width: 110px;
+    min-width: 130px;
     border: none;
+    margin: 5px 0;
+}
+
+div.settings-form>button:hover {
+    background-color: #4CAF50;
+    transition: background-color .1s;
 }
 
 @media only screen and (max-width: 1464px) {
@@ -145,6 +222,10 @@ div.settings-form>button {
     }
     div.settings-form>label {
         min-width: 150px;
+    }
+
+    div.settings-form>input[type=range] {
+        height: 10px;
     }
 }
 
@@ -228,7 +309,7 @@ div.footer {
         height: 100%;
         display: grid;
         grid-template-columns: 1fr 12fr;
-        grid-template-rows: 50px 1fr 1fr 1fr 1fr;
+        grid-template-rows: 50px 280px 2fr auto 50px;
     }
     div.header {
         grid-column-start: 1;
@@ -243,14 +324,13 @@ div.footer {
         grid-row-end: 3;
         color: #fafafa;
         background: #607D8B;
-        height: 150px;
     }
     div.content {
         grid-column-start: 1;
         grid-column-end: 12;
         grid-row-start: 3;
         grid-row-end: 8;
-        height: 500px;
+        height: 600px;
     }
     div.extra {
         grid-column-start: 1;
