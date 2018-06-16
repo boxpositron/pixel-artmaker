@@ -20,62 +20,37 @@
         </div>
         <div class="grid sidebar">
             <h4>Color Pallete</h4>
-            <ul class="pallette-box">
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-                <li class="pallette-color"></li>
-            </ul>
+            <ul id="pallette" class="pallette-box"></ul>
         </div>
         <div class="grid content">
 
-            <div class="pixel-area">
-                <div class="pixel"></div>
-            </div>
+            <div id="canvas" class="pixel-area"></div>
 
         </div>
         <div class="grid extra">
 
             <div class="settings-form">
                 <label for="grid-size">Grid Size</label>
-                <input id="grid-size" type="number" placeholder="3">
-                <button>Update</button>
+                <input id="grid-size" type="number">
+                <button id="gridUpdate">Fill</button>
             </div>
 
             <div class="settings-form">
-                <label for="grid-size">Cell Height (px)</label>
-                <input id="grid-size" type="number" placeholder="100">
-                <button>Update</button>
+                <label for="cell-height">Cell Height (px)</label>
+                <input id="cell-height" type="number">
+                <button id="heightUpdate">Update</button>
             </div>
 
             <div class="settings-form">
-                <label for="grid-size">Cell Width (px)</label>
-                <input id="grid-size" type="number" placeholder="100">
-                <button>Update</button>
+                <label for="cell-width">Cell Width (px)</label>
+                <input id="cell-width" type="number">
+                <button id="widthUpdate">Update</button>
+            </div>
+
+            <div class="settings-form">
+                <button id="zoomIn">Zoom In</button>
+                <button id="zoomOut">Zoom Out</button>
+
             </div>
 
         </div>
