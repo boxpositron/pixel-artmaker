@@ -258,6 +258,9 @@ const colors = [
 
 ]
 
+const PIXEL_CACHE = '68A9C8CF253CCC1C'
+const CACHE_DURATION = 1000 * 60 * 60 * 60 * 24
+
 const state = {
     loaded: false
 }
@@ -295,9 +298,20 @@ function throttle(callback, wait, context = this) {
     }
 }
 
+const debounce = (fn, time) => {
+    let timeout;
+
+    return function () {
+        const functionCall = () => fn.apply(this, arguments);
+
+        clearTimeout(timeout);
+        timeout = setTimeout(functionCall, time);
+    }
+}
+
 const loadState = () => {
     try {
-        const pixelCache = JSON.parse(localStorage.getItem('pixelCache'))
+        const pixelCache = JSON.parse(localStorage.getItem(PIXEL_CACHE))
         const pixelArea = document.getElementById('canvas')
         config = pixelCache.config
 
@@ -328,10 +342,14 @@ const saveState = () => {
     children.forEach(pixel => {
         colorState.push(pixel.style.backgroundColor)
     })
-    localStorage.setItem('pixelCache', JSON.stringify({
+    localStorage.setItem(PIXEL_CACHE, JSON.stringify({
         config,
         colorState
     }))
+
+    throttle(()=>{
+        localStorage.removeItem(PIXEL_CACHE)
+    }, CACHE_DURATION)()
 }
 
 const refreshFavorite = () => {
