@@ -24,8 +24,6 @@ ul.favorite-box {
     padding: 0;
     -webkit-padding-start: 0;
     list-style-type: none;
-    overflow-y: scroll;
-    white-space: nowrap;
     height: 20px;
 }
 
